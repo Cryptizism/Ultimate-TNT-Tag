@@ -1,0 +1,8 @@
+name: TnT Tag
+version: ${project.version}
+main: me.cryptizism.tnttag.TntTag
+authors: [ Cryptizism ]
+commands:
+  it:
+    description: Makes you become IT
+    usage: /<command>
