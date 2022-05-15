@@ -1,15 +1,12 @@
 package me.cryptizism.tnttag.manager;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
-import java.util.HashMap;
 import java.util.Set;
-import java.util.UUID;
-import me.cryptizism.tnttag.manager.ScoreboardManager;
+
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scoreboard.Team;
 
 public class ItController {
     private static GameManager gameManager;
@@ -24,12 +21,16 @@ public class ItController {
     public void removeITPlayer(Player player) {
         ScoreboardManager.board.getTeam("Players").addEntry(player.getName());
         player.getInventory().clear();
+        player.getInventory().setHelmet(new ItemStack(Material.AIR));
     }
 
     public void addITPlayer(Player player){
         ScoreboardManager.board.getTeam("IT").addEntry(player.getName());
         player.getInventory().clear();
         player.getInventory().setItem(0, new ItemStack(Material.TNT));
+        //Player tracking compass
+        player.getInventory().setItem(1, new ItemStack(Material.COMPASS));
+        player.getInventory().setHelmet(new ItemStack(Material.TNT));
     }
 
     public int getITTeamSize(){
@@ -40,11 +41,11 @@ public class ItController {
         return ScoreboardManager.board.getTeam("Players").getSize();
     }
 
-    public Set ITTeamList(){
+    public Set<OfflinePlayer> ITTeamList(){
         return ScoreboardManager.board.getTeam("IT").getPlayers();
     }
 
-    public Set PlayersTeamList(){
+    public Set<OfflinePlayer> PlayersTeamList(){
         return ScoreboardManager.board.getTeam("Players").getPlayers();
     }
 }

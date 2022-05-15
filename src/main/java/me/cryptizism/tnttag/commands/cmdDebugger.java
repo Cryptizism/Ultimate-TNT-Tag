@@ -18,7 +18,7 @@ public class cmdDebugger implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if(!(sender instanceof Player)) return false;
         Player player = (Player) sender;
-        ScoreboardManager.board.getTeam("IT").addEntry(player.getName());
+        gameManager.itController.addITPlayer(player);
         return true;
     }
 }

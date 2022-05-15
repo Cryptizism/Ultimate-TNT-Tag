@@ -20,6 +20,7 @@ public class onDamageDone implements Listener {
 
     @EventHandler
     private void onPlayerDamageDone(EntityDamageByEntityEvent event){
+        event.setDamage(0);
         Bukkit.broadcastMessage("Hit received");
         if (!(event.getEntity() instanceof Player && event.getDamager() instanceof Player)) return;
         Bukkit.broadcastMessage(ChatColor.DARK_RED + "PvP received");

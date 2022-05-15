@@ -22,7 +22,6 @@ public class onPlayerJoin implements Listener {
     public void onPlayerJoinEvent(PlayerJoinEvent event){
         Player caller = event.getPlayer();
         caller.setScoreboard(ScoreboardManager.board);
-        ScoreboardManager.board.getTeam("Players").addPlayer((OfflinePlayer) event.getPlayer());
-        event.setJoinMessage("Welcome to the server" + event.getPlayer().getName());
+        gameManager.itController.removeITPlayer(caller);
     }
 }
