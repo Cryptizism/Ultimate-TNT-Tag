@@ -7,7 +7,6 @@ public class GameManager {
     public ItController itController;
     public RoundManager roundManager;
     public ScoreboardManager scoreboardManager;
-    public TeamManager teamManager;
 
     public GameState gameState = GameState.LOBBY;
 
@@ -15,10 +14,17 @@ public class GameManager {
         this.plugin = plugin;
         this.roundManager = new RoundManager(this);
         this.scoreboardManager = new ScoreboardManager(this);
-        this.teamManager = new TeamManager(this);
         this.itController = new ItController(this);
 
         this.init();
+    }
+
+    public void editGameState(GameState state) {
+        if(state == gameState) return;
+        gameState = state;
+        if(state == GameState.LOBBY){
+            this.itController.addAllToPlayers();
+        }
     }
 
     public void init(){

@@ -6,3 +6,6 @@ commands:
   it:
     description: Makes you become IT
     usage: /<command>
+  spectate:
+    description: Makes you spectate
+    usage: /<command>

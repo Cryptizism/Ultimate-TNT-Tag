@@ -6,10 +6,10 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class cmdDebugger implements CommandExecutor {
+public class cmdDebugger2 implements CommandExecutor {
     private final GameManager gameManager;
 
-    public cmdDebugger(GameManager gameManager){
+    public cmdDebugger2(GameManager gameManager){
         this.gameManager = gameManager;
     }
 
@@ -17,7 +17,7 @@ public class cmdDebugger implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if(!(sender instanceof Player)) return false;
         Player player = (Player) sender;
-        gameManager.itController.addToIT(player, false);
+        gameManager.roundManager.nextRound();
         return true;
     }
 }
