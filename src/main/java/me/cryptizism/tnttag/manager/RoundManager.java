@@ -1,13 +1,16 @@
 package me.cryptizism.tnttag.manager;
 
+import me.cryptizism.tnttag.TntTag;
 import org.bukkit.*;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Random;
 
 public class RoundManager {
-    public int gameRound;
+    public int gameRound = 0;
+    public int roundTime = 60;
 
     private GameManager gameManager;
 
@@ -16,9 +19,10 @@ public class RoundManager {
     }
 
     public void nextRound(){
+        gameRound++;
         int playerCount = gameManager.itController.getPlayersSize();
-        if(playerCount == 0){
-            Bukkit.broadcastMessage(ChatColor.RED + "Tried to give IT role but there are no players, report to event organiser (Cryptizism).");
+        if(playerCount <= 1){
+            Bukkit.broadcastMessage(ChatColor.RED + "Tried to give IT role but there are no players or 1 player, report to event organiser (Cryptizism).");
             return;
         }
         Random rand = new Random();
@@ -44,10 +48,53 @@ public class RoundManager {
         }
         /*10 = 2 6 = 1  rest = 4*/
         // Every round is 5 less seconds
-        int roundTime = 60 - (gameRound * 5);
+        roundTime = 60 - (gameRound * 5);
+        runnable();
     }
 
     public void initRounds(){
-        //First round relaese from spawn and shitttt !!!!
+        if(gameRound == 0){
+            gameManager.itController.addAllToPlayers();
+        }
+        gameManager.setGameState(GameState.ACTIVE);
+        nextRound();
+    }
+
+    public void runnable(){
+        new BukkitRunnable(){
+
+            @Override
+            public void run(){
+                roundTime = roundTime - 1;
+                if(roundTime < 0){
+                    Bukkit.broadcastMessage(ChatColor.RED + "The round is over");
+                    gameManager.itController.ITTeamList().forEach(player -> explode(player));
+                    roundEnded();
+                    cancel();
+                } else {
+                    //Bukkit.broadcastMessage(ChatColor.RED + Integer.toString(roundTime));
+                    gameManager.scoreboardManager.addToScoreboard(roundTime, gameRound);
+                }
+            }
+
+        }.runTaskTimer(TntTag.getInstance(), 0, 20);
+    }
+
+    public void explode(OfflinePlayer oPlayer){
+        Player player = (Player) oPlayer;
+        Location playerLoc = player.getLocation();
+        World world = player.getWorld();
+        world.createExplosion(playerLoc.getX(), playerLoc.getY(), playerLoc.getZ(), 3, false, false);
+        //Kill players based on location
+        gameManager.itController.addToSpec(player);
+    }
+
+    public void roundEnded(){
+        if(gameManager.itController.getPlayersSize() > 1){
+
+        } else {
+            Bukkit.broadcastMessage(gameManager.itController.PlayersTeamList().toArray()[0] + " has won!");
+            gameRound = 0;
+        }
     }
 }

@@ -19,7 +19,7 @@ public class GameManager {
         this.init();
     }
 
-    public void editGameState(GameState state) {
+    public void setGameState(GameState state) {
         if(state == gameState) return;
         gameState = state;
         if(state == GameState.LOBBY){

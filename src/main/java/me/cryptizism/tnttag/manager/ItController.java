@@ -59,7 +59,7 @@ public class ItController {
         //Action bar title
 
         //Play sound
-        player.playNote(playerLoc, Instrument.PIANO, Note.natural(1, Note.Tone.D));
+        player.playSound(playerLoc, Sound.NOTE_PLING, 4, 2);
     }
 
     public void addToSpec(Player player){

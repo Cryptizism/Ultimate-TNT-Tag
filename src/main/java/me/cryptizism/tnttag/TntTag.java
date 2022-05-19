@@ -11,11 +11,15 @@ import org.bukkit.plugin.java.JavaPlugin;
 public final class TntTag extends JavaPlugin {
 
     private GameManager gameManager;
+    private static TntTag instance;
 
     @Override
     public void onEnable() {
         // Plugin startup logic
         super.onEnable();
+
+        //set instance
+        instance = this;
 
         this.gameManager = new GameManager(this);
 
@@ -32,5 +36,9 @@ public final class TntTag extends JavaPlugin {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
+    }
+
+    public static TntTag getInstance() {
+        return instance;
     }
 }

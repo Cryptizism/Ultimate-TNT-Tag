@@ -1,8 +1,10 @@
 package me.cryptizism.tnttag.listeners;
 
 import me.cryptizism.tnttag.manager.GameManager;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -13,12 +15,12 @@ public class onDamageDone implements Listener {
 
     public onDamageDone(GameManager gameManager){
         this.gameManager = gameManager;
-
     }
 
     @EventHandler
     private void onPlayerDamageDone(EntityDamageByEntityEvent event){
         event.setDamage(0);
+        Bukkit.broadcastMessage(String.valueOf(event.getDamager()));
         if (!(event.getEntity() instanceof Player && event.getDamager() instanceof Player)) return;
         Player invoker = (Player) event.getDamager();
         Player attacked = (Player) event.getEntity();
@@ -26,5 +28,6 @@ public class onDamageDone implements Listener {
         gameManager.itController.addToPlayer(invoker);
         gameManager.itController.addToIT(attacked, false);
         invoker.sendMessage(ChatColor.GREEN + "You tagged " + attacked.getName() + ChatColor.GREEN + "!");
+        attacked.sendMessage(ChatColor.RED + invoker.getName() + " tagged you!");
     }
 }

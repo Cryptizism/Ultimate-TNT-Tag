@@ -5,5 +5,5 @@ public enum GameState {
     PREGAME /*Countdown is running, get everything prepared*/,
     ACTIVE /*The game is running, call functions to start the game*/,
     ENDED /*The game has ended and a player has won*/,
-    RESTARTING /*Cleanup has been called*/;
+    RESTARTING /*Cleanup has been called*/
 }
