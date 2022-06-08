@@ -4,11 +4,15 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.scoreboard.*;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class ScoreboardManager {
     public static Scoreboard board;
 
     private GameManager gameManager;
     private Objective obj;
+    private ArrayList<String> previousScoreboardEntries = new ArrayList<String>();
 
     public ScoreboardManager(GameManager gameManager){
         this.gameManager = gameManager;
@@ -32,21 +36,28 @@ public class ScoreboardManager {
 
     public void addToScoreboard(int timeLeft, int round) {
         //Scoreboard
-        //reset scores (throws no errors when it does not exist?)
-        board.resetScores(ChatColor.RED + "GAME OVER");
-        board.resetScores(ChatColor.RED + Integer.toString(timeLeft+1) + " seconds.");
-        board.resetScores(ChatColor.translateAlternateColorCodes('&', "&7Round #" + Integer.toString(round-1)));
+        //reset scores
+        clearLeaderboard();
         //set scores
-        Score score = obj.getScore(ChatColor.translateAlternateColorCodes('&', "&7Round #" + Integer.toString(round)));
-        score.setScore(4);
-        Score score2 = obj.getScore(ChatColor.GOLD + "Time Left:");
-        score2.setScore(3);
-        Score score3;
+        addEntry(4, ChatColor.translateAlternateColorCodes('&', "&7Round #" + Integer.toString(round)));
+        addEntry(3, ChatColor.GOLD + "Time Left:");
         if(timeLeft == 0){
-            score3 = obj.getScore(ChatColor.RED + "GAME OVER");
+            addEntry(2, ChatColor.RED + "GAME OVER");
         }else{
-            score3 = obj.getScore(ChatColor.RED + Integer.toString(timeLeft) + " seconds.");
+            addEntry(2, ChatColor.RED + Integer.toString(timeLeft) + " seconds.");
         }
-        score3.setScore(2);
+    }
+
+    private void addEntry(int score, String entry){
+        Score _score = obj.getScore(entry);
+        _score.setScore(score);
+        previousScoreboardEntries.add(entry);
+    }
+
+    private void clearLeaderboard(){
+        for (String previousScoreboardEntry : previousScoreboardEntries) {
+            board.resetScores(previousScoreboardEntry);
+        }
+        previousScoreboardEntries.clear();
     }
 }

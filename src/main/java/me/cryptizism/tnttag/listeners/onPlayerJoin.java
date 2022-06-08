@@ -28,6 +28,5 @@ public class onPlayerJoin implements Listener {
         } else {
 
         }
-        gameManager.itController.addToPlayer(caller);
     }
 }

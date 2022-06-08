@@ -17,7 +17,7 @@ public class cmdDebugger2 implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if(!(sender instanceof Player)) return false;
         Player player = (Player) sender;
-        gameManager.roundManager.nextRound();
+        gameManager.roundManager.initRounds();
         return true;
     }
 }

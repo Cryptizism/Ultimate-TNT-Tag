@@ -20,7 +20,6 @@ public class onDamageDone implements Listener {
     @EventHandler
     private void onPlayerDamageDone(EntityDamageByEntityEvent event){
         event.setDamage(0);
-        Bukkit.broadcastMessage(String.valueOf(event.getDamager()));
         if (!(event.getEntity() instanceof Player && event.getDamager() instanceof Player)) return;
         Player invoker = (Player) event.getDamager();
         Player attacked = (Player) event.getEntity();

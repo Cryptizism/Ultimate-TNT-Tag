@@ -66,7 +66,7 @@ public class RoundManager {
             @Override
             public void run(){
                 roundTime = roundTime - 1;
-                if(roundTime < 0){
+                if((roundTime < 0) || gameManager.gameState != GameState.ACTIVE ){
                     Bukkit.broadcastMessage(ChatColor.RED + "The round is over");
                     gameManager.itController.ITTeamList().forEach(player -> explode(player));
                     roundEnded();
@@ -87,14 +87,18 @@ public class RoundManager {
         world.createExplosion(playerLoc.getX(), playerLoc.getY(), playerLoc.getZ(), 3, false, false);
         //Kill players based on location
         gameManager.itController.addToSpec(player);
+        Bukkit.broadcastMessage(ChatColor.RED + player.getName() + " exploded.");
     }
 
     public void roundEnded(){
         if(gameManager.itController.getPlayersSize() > 1){
-
+            initRounds();
         } else {
-            Bukkit.broadcastMessage(gameManager.itController.PlayersTeamList().toArray()[0] + " has won!");
+            Bukkit.broadcastMessage(gameManager.itController.PlayersTeamList().iterator().next().getName() + " has won!");
+            gameManager.setGameState(GameState.ENDED);
             gameRound = 0;
+            roundTime = 0;
+            gameManager.scoreboardManager.addToScoreboard(roundTime, gameRound);
         }
     }
 }
