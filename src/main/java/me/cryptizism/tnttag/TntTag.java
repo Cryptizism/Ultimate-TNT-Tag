@@ -2,10 +2,7 @@ package me.cryptizism.tnttag;
 
 import me.cryptizism.tnttag.commands.cmdDebugger;
 import me.cryptizism.tnttag.commands.cmdDebugger2;
-import me.cryptizism.tnttag.listeners.onDamageDone;
-import me.cryptizism.tnttag.listeners.onItemManagement;
-import me.cryptizism.tnttag.listeners.onPlayerJoin;
-import me.cryptizism.tnttag.listeners.onPlayerLeave;
+import me.cryptizism.tnttag.listeners.*;
 import me.cryptizism.tnttag.manager.GameManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -29,6 +26,8 @@ public final class TntTag extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new onPlayerJoin(gameManager), this);
         getServer().getPluginManager().registerEvents(new onPlayerLeave(gameManager), this);
         getServer().getPluginManager().registerEvents(new onItemManagement(), this);
+        getServer().getPluginManager().registerEvents(new onBlockPlace(), this);
+        getServer().getPluginManager().registerEvents(new onFallDamage(), this);
         //Registering Commands
         this.getCommand("it").setExecutor(new cmdDebugger(gameManager));
         this.getCommand("spectate").setExecutor(new cmdDebugger2(gameManager));

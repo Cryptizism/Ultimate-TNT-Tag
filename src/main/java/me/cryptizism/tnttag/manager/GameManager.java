@@ -7,6 +7,7 @@ public class GameManager {
     public ItController itController;
     public RoundManager roundManager;
     public ScoreboardManager scoreboardManager;
+    public BlockManager blockManager;
 
     public GameState gameState = GameState.LOBBY;
 
@@ -15,6 +16,7 @@ public class GameManager {
         this.roundManager = new RoundManager(this);
         this.scoreboardManager = new ScoreboardManager(this);
         this.itController = new ItController(this);
+        this.blockManager = new BlockManager(this);
 
         this.init();
     }
@@ -22,8 +24,13 @@ public class GameManager {
     public void setGameState(GameState state) {
         if(state == gameState) return;
         gameState = state;
-        if(state == GameState.LOBBY){
-            this.itController.addAllToPlayers();
+        switch(state){
+            case LOBBY:
+                this.itController.addAllToPlayers();
+                break;
+            case ACTIVE:
+                this.blockManager.addBlocksToPlayers();
+                break;
         }
     }
 

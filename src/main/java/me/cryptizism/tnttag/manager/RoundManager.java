@@ -67,12 +67,13 @@ public class RoundManager {
             public void run(){
                 roundTime = roundTime - 1;
                 if((roundTime < 0) || gameManager.gameState != GameState.ACTIVE ){
-                    Bukkit.broadcastMessage(ChatColor.RED + "The round is over");
+                    if(gameManager.itController.getPlayersSize() > 1) {
+                        Bukkit.broadcastMessage(ChatColor.RED + "The round is over");
+                    }
                     gameManager.itController.ITTeamList().forEach(player -> explode(player));
                     roundEnded();
                     cancel();
                 } else {
-                    //Bukkit.broadcastMessage(ChatColor.RED + Integer.toString(roundTime));
                     gameManager.scoreboardManager.addToScoreboard(roundTime, gameRound);
                 }
             }

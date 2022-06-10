@@ -29,7 +29,7 @@ public class ScoreboardManager {
         IT.setPrefix(ChatColor.DARK_RED + "[IT] ");
         Players.setPrefix(ChatColor.WHITE + "");
         Spectators.setPrefix(ChatColor.translateAlternateColorCodes('&', "&7&o"));
-        obj = board.registerNewObjective(ChatColor.translateAlternateColorCodes('&', "&l&cT&fN&cT Tag"), "dummy");
+        obj = board.registerNewObjective(ChatColor.BOLD + ChatColor.translateAlternateColorCodes('&', "&cTNT Tag"), "dummy");
         obj.setDisplaySlot(DisplaySlot.SIDEBAR);
         addToScoreboard(0, 0);
     }
@@ -39,12 +39,15 @@ public class ScoreboardManager {
         //reset scores
         clearLeaderboard();
         //set scores
-        addEntry(4, ChatColor.translateAlternateColorCodes('&', "&7Round #" + Integer.toString(round)));
-        addEntry(3, ChatColor.GOLD + "Time Left:");
+        addEntry(4, ChatColor.GRAY + "Round #" + Integer.toString(round));
+        addEntry(3, "");
         if(timeLeft == 0){
             addEntry(2, ChatColor.RED + "GAME OVER");
         }else{
-            addEntry(2, ChatColor.RED + Integer.toString(timeLeft) + " seconds.");
+            addEntry(2, ChatColor.RED + "Explosion in " + ChatColor.GREEN + Integer.toString(timeLeft) + "s");
+            addEntry(1, "");
+            int players = gameManager.itController.getPlayersSize() + gameManager.itController.getITTeamSize();
+            addEntry(0, ChatColor.RED + "Players left: " + ChatColor.GREEN + Integer.toString(players));
         }
     }
 

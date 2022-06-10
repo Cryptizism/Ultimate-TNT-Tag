@@ -21,6 +21,7 @@ public class onPlayerJoin implements Listener {
     public void onPlayerJoinEvent(PlayerJoinEvent event){
         Player caller = event.getPlayer();
         caller.setScoreboard(ScoreboardManager.board);
+        caller.getActivePotionEffects().forEach( effect -> caller.removePotionEffect(effect.getType()));
         if(gameManager.gameState == GameState.ACTIVE){
             gameManager.itController.addToSpec(caller);
         } else if(gameManager.gameState == GameState.LOBBY){

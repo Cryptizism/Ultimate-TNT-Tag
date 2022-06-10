@@ -2,6 +2,7 @@ name: TnT Tag
 version: ${project.version}
 main: me.cryptizism.tnttag.TntTag
 authors: [ Cryptizism ]
+depend: [ ProtocolLib ]
 commands:
   it:
     description: Makes you become IT

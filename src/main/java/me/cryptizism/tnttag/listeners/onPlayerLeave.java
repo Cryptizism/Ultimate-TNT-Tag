@@ -1,6 +1,7 @@
 package me.cryptizism.tnttag.listeners;
 
 import me.cryptizism.tnttag.manager.GameManager;
+import me.cryptizism.tnttag.manager.GameState;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -19,6 +20,7 @@ public class onPlayerLeave implements Listener {
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event){
         gameManager.itController.addToSpec(event.getPlayer());
+        if(gameManager.gameState != GameState.ACTIVE){ return; }
         if (((gameManager.itController.getPlayersSize() + gameManager.itController.getITTeamSize()) - 1) <= 1){
             OfflinePlayer winner;
             if(gameManager.itController.getITTeamSize() == 1) {

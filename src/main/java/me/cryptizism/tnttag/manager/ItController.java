@@ -11,6 +11,8 @@ import java.util.Set;
 
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkMeta;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 public class ItController {
     private static GameManager gameManager;
@@ -23,10 +25,18 @@ public class ItController {
     }
 
     public void addToPlayer(Player player) {
+        //Adds to team
         ScoreboardManager.board.getTeam("Players").addEntry(player.getName());
+        //clears previous inventory changes
         player.getInventory().clear();
         player.getInventory().setHelmet(new ItemStack(Material.AIR));
+        //sets gamemode
         player.setGameMode(GameMode.SURVIVAL);
+        //Clear speed
+        player.removePotionEffect(PotionEffectType.SPEED);
+        //Give speed
+        PotionEffect swiftness = new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 1, false, false);
+        player.addPotionEffect(swiftness);
     }
 
     public void addToIT(Player player, boolean firstRound){
@@ -60,6 +70,11 @@ public class ItController {
 
         //Play sound
         player.playSound(playerLoc, Sound.NOTE_PLING, 4, 2);
+
+        //Give speed
+        player.removePotionEffect(PotionEffectType.SPEED);
+        PotionEffect swiftness = new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 3, false, false);
+        player.addPotionEffect(swiftness);
     }
 
     public void addToSpec(Player player){
