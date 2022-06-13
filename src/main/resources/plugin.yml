@@ -1,4 +1,4 @@
-name: TnT Tag
+name: TNT_Tag
 version: ${project.version}
 main: me.cryptizism.tnttag.TntTag
 authors: [ Cryptizism ]
@@ -6,6 +6,15 @@ depend: [ ProtocolLib ]
 commands:
   it:
     description: Makes you become IT
+    usage: /<command>
+  start:
+    description: Force starts the game
+    usage: /<command>
+  set-map:
+    description: Sets the maps spawn Location
+    usage: /<command>
+  set-spawn:
+    description: Sets the pre-game spawn
     usage: /<command>
   spectate:
     description: Makes you spectate

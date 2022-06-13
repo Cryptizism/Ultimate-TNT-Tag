@@ -1,0 +1,16 @@
+waiting-coords:
+  x: 0
+  y: 0
+  z: 0
+
+spawn-coords:
+  x: 0
+  y: 0
+  z: 0
+
+database:
+  host: localhost
+  port: 3306
+  database: tnttag
+  user: root
+  password:

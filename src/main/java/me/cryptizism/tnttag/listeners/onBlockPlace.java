@@ -36,6 +36,10 @@ public class onBlockPlace implements Listener {
     private void BlockPlaceEvent(BlockPlaceEvent e){
         Player trigger = e.getPlayer();
         Block block = e.getBlock();
+        if(block.getType() != Material.WOOL) {
+            e.setCancelled(true);
+            return;
+        }
         if(e.getBlockAgainst().getType() == Material.BARRIER){
             e.setCancelled(true);
             trigger.sendMessage("You cannot place a block here.");

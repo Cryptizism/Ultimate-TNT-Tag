@@ -6,10 +6,10 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class cmdDebugger implements CommandExecutor {
+public class cmdIT implements CommandExecutor {
     private final GameManager gameManager;
 
-    public cmdDebugger(GameManager gameManager){
+    public cmdIT(GameManager gameManager){
         this.gameManager = gameManager;
     }
 
@@ -18,6 +18,7 @@ public class cmdDebugger implements CommandExecutor {
         if(!(sender instanceof Player)) return false;
         Player player = (Player) sender;
         gameManager.itController.addToIT(player, false);
+        gameManager.mySQLQueries.addPointsToPlayer(player, 5);
         return true;
     }
 }

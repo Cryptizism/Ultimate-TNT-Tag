@@ -26,8 +26,9 @@ public class onPlayerJoin implements Listener {
             gameManager.itController.addToSpec(caller);
         } else if(gameManager.gameState == GameState.LOBBY){
             gameManager.itController.addToPlayer(caller);
-        } else {
-
         }
+
+        //Add player to database
+        gameManager.mySQLQueries.addPlayerToTable(caller);
     }
 }

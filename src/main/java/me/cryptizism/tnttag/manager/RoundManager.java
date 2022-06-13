@@ -53,6 +53,10 @@ public class RoundManager {
     }
 
     public void initRounds(){
+        if(Bukkit.getOnlinePlayers().size() <= 1){
+            Bukkit.broadcastMessage(ChatColor.RED + "Cannot start game/rounds with only 1 player, report to event organiser (Cryptizism).");
+            return;
+        }
         if(gameRound == 0){
             gameManager.itController.addAllToPlayers();
         }
