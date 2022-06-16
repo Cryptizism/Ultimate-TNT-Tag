@@ -31,6 +31,8 @@ public class onPlayerJoin implements Listener {
         }
 
         //Add player to database
-        gameManager.mySQLQueries.addPlayerToTable(caller);
+        if(gameManager.mySQLQueries != null){
+            gameManager.mySQLQueries.addPlayerToTable(caller);
+        }
     }
 }

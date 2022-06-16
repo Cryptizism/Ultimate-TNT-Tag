@@ -22,6 +22,7 @@ public class MySQLQueries {
     }
 
     public void createTable(){
+        if(!gameManager.mySQLInit.isConnected()) return;
         PreparedStatement ps;
         try{
             ps = connection.prepareStatement(
@@ -34,6 +35,7 @@ public class MySQLQueries {
     }
 
     public void addPlayerToTable(Player player){
+        if(!gameManager.mySQLInit.isConnected()) return;
         try{
             PreparedStatement ps;
             String uuid = player.getUniqueId().toString();
@@ -52,6 +54,7 @@ public class MySQLQueries {
     }
 
     public boolean exists(String uuid){
+        if(!gameManager.mySQLInit.isConnected()) return false;
         try{
             PreparedStatement ps;
             ps = connection.prepareStatement(
@@ -67,6 +70,7 @@ public class MySQLQueries {
     }
 
     public void addPointsToPlayer(Player player, int increase){
+        if(!gameManager.mySQLInit.isConnected()) return;
         String uuid = player.getUniqueId().toString();
         int points;
         if(!exists(uuid)){
@@ -95,6 +99,7 @@ public class MySQLQueries {
     }
 
     public int getPlayerPoints(Player player) throws Exception{
+        if(!gameManager.mySQLInit.isConnected()) throw new Exception();
         String uuid = player.getUniqueId().toString();
         try{
             PreparedStatement ps;

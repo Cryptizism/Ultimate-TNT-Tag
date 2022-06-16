@@ -31,7 +31,6 @@ public class GameManager {
         this.blockManager = new BlockManager(this);
         this.mySQLInit = new MySQLInit(plugin.getConfig());
         this.spawningManager = new SpawningManager(plugin.getConfig());
-        this.hologramScoreboardManager = new HologramScoreboardManager(this);
 
         this.init();
     }
@@ -58,6 +57,8 @@ public class GameManager {
     }
 
     public void init(){
+        //Clear all entities
+        Bukkit.getWorld("world").getLivingEntities().forEach(Entity::remove);
         //start the score board
         this.scoreboardManager.createScoreboard();
 
@@ -71,13 +72,10 @@ public class GameManager {
         if(mySQLInit.isConnected()){
             this.mySQLQueries = new MySQLQueries(this);
             mySQLQueries.createTable();
+            this.hologramScoreboardManager = new HologramScoreboardManager(this);
+            hologramScoreboardManager.createHoloScoreboard();
+            hologramScoreboardManager.setTitle(ChatColor.GREEN + "TNT Tag Leaderboard");
         }
-
-        //Clear all entities
-        Bukkit.getWorld("world").getLivingEntities().forEach(Entity::remove);
-
-        hologramScoreboardManager.createHoloScoreboard();
-        hologramScoreboardManager.setTitle(ChatColor.GREEN + "TNT Tag Leaderboard");
     }
 
     public void close(){

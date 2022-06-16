@@ -34,7 +34,11 @@ public class MySQLInit {
 
     public void connect() throws ClassNotFoundException, SQLException {
         if(isConnected()) return;
-        connection = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database + "?useSSL=false", username, password);
+        try{
+            connection = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database + "?useSSL=false", username, password);
+        } catch(SQLException e){
+            Bukkit.getLogger().warning("Could not connect to database, all database related activity will not work till you restart the plugin");
+        }
     }
 
     public void disconnect() {
