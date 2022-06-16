@@ -8,6 +8,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collection;
 
 public class MySQLQueries {
 
@@ -107,5 +109,28 @@ public class MySQLQueries {
             e.printStackTrace();
         }
         throw new Exception();
+    }
+
+    public String[] getTopPlayers(int playerCount){
+        try{
+            String[] scoreboardText = new String[playerCount];
+            PreparedStatement ps;
+            ps = connection.prepareStatement(
+                    "SELECT * FROM gamescores " +
+                            "ORDER BY POINTS DESC " +
+                            "LIMIT ?"
+            );
+            ps.setInt(1, playerCount);
+            ResultSet results = ps.executeQuery();
+            int i = 0;
+            while(results.next()){
+                scoreboardText[i] = (results.getString("NAME") + " - " + results.getString("POINTS") + " points");
+                i++;
+            }
+            return scoreboardText;
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        return null;
     }
 }

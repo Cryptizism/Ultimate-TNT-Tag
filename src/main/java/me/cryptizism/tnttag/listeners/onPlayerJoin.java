@@ -24,8 +24,10 @@ public class onPlayerJoin implements Listener {
         caller.getActivePotionEffects().forEach( effect -> caller.removePotionEffect(effect.getType()));
         if(gameManager.gameState == GameState.ACTIVE){
             gameManager.itController.addToSpec(caller);
+            gameManager.spawningManager.teleportToGame(caller);
         } else if(gameManager.gameState == GameState.LOBBY){
             gameManager.itController.addToPlayer(caller);
+            gameManager.spawningManager.teleportToLobby(caller);
         }
 
         //Add player to database

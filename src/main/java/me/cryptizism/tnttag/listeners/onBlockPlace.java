@@ -7,6 +7,7 @@ import com.comphenix.protocol.wrappers.BlockPosition;
 import me.cryptizism.tnttag.TntTag;
 
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -36,14 +37,25 @@ public class onBlockPlace implements Listener {
     private void BlockPlaceEvent(BlockPlaceEvent e){
         Player trigger = e.getPlayer();
         Block block = e.getBlock();
+
+        Block against = e.getBlockAgainst();
         if(block.getType() != Material.WOOL) {
             e.setCancelled(true);
             return;
         }
-        if(e.getBlockAgainst().getType() == Material.BARRIER){
+        if(against.getType() == Material.BARRIER){
             e.setCancelled(true);
             trigger.sendMessage("You cannot place a block here.");
             return;
+        }
+        if(against.getType() == Material.WOOL){
+            int y = against.getY() - 1;
+            World world = against.getWorld();
+            if(world.getBlockAt(against.getX(), y, against.getZ()).getType() == Material.WOOL){
+                e.setCancelled(true);
+                trigger.sendMessage("You cannot stack up 3 high");
+                return;
+            }
         }
         new BukkitRunnable(){
             int count = 0;

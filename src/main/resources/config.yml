@@ -1,12 +1,12 @@
-waiting-coords:
-  x: 0
-  y: 0
-  z: 0
+waiting-coords: #These are for the lobby
+  x: 0.0
+  y: 0.0
+  z: 0.0
 
-spawn-coords:
-  x: 0
-  y: 0
-  z: 0
+spawn-coords: #These are for the game
+  x: 0.0
+  y: 0.0
+  z: 0.0
 
 database:
   host: localhost

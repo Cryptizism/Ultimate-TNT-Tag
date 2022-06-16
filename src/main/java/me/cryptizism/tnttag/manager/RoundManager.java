@@ -32,11 +32,14 @@ public class RoundManager {
         if (playerCount <= 6){
 
             gameManager.itController.addToIT(((Player) players[rand_int]), true);
-            /*
+
             if(playerCount > 4){
-                //teleport to middle
+                gameManager.itController.PlayersTeamList().forEach(
+                        player ->
+                        gameManager.spawningManager.teleportToGame((Player) player)
+                );
             }
-            */
+
         } else if(playerCount <= 10){
             for (int i = 1; i <= 2; i++) {
                 gameManager.itController.addToIT(((Player) players[rand_int]), true);
@@ -100,7 +103,7 @@ public class RoundManager {
             initRounds();
         } else {
             Bukkit.broadcastMessage(gameManager.itController.PlayersTeamList().iterator().next().getName() + " has won!");
-            gameManager.setGameState(GameState.ENDED);
+            gameManager.setGameState(GameState.LOBBY);
             gameRound = 0;
             roundTime = 0;
             gameManager.scoreboardManager.addToScoreboard(roundTime, gameRound);
