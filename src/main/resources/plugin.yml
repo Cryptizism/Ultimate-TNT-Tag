@@ -6,16 +6,16 @@ depend: [ ProtocolLib ]
 commands:
   it:
     description: Makes you become IT
-    usage: /<command>
+    usage: /<command> [target]
   start:
     description: Force starts the game
     usage: /<command>
   set-map:
     description: Sets the maps spawn Location
-    usage: /<command>
+    usage: /<command> [x] [y] [z]
   set-spawn:
     description: Sets the pre-game spawn
-    usage: /<command>
+    usage: /<command> [x] [y] [z]
   spectate:
-    description: Makes you spectate
-    usage: /<command>
+    description: Makes you or another player spectate
+    usage: /<command> [target]

@@ -1,9 +1,6 @@
 package me.cryptizism.tnttag;
 
-import me.cryptizism.tnttag.commands.cmdForceStart;
-import me.cryptizism.tnttag.commands.cmdIT;
-import me.cryptizism.tnttag.commands.cmdSetSpawn;
-import me.cryptizism.tnttag.commands.cmdSpectate;
+import me.cryptizism.tnttag.commands.*;
 import me.cryptizism.tnttag.listeners.*;
 import me.cryptizism.tnttag.manager.GameManager;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -43,6 +40,7 @@ public final class TntTag extends JavaPlugin {
         this.getCommand("start").setExecutor(new cmdForceStart(gameManager));
         this.getCommand("spectate").setExecutor(new cmdSpectate(gameManager));
         this.getCommand("set-spawn").setExecutor(new cmdSetSpawn(config, this));
+        this.getCommand("set-map").setExecutor(new cmdSetMap(config, this));
     }
 
     @Override

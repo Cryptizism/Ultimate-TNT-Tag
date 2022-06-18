@@ -25,9 +25,21 @@ public class cmdSetMap implements CommandExecutor {
             player.sendMessage(ChatColor.RED + "You cannot use this command.");
             return true;
         }
-        config.set("spawn-coords.x", player.getLocation().getX());
-        config.set("spawn-coords.y", player.getLocation().getY());
-        config.set("spawn-coords.z", player.getLocation().getZ());
+        if(args.length == 3){
+            try{
+                config.set("spawn-coords.x", Double.parseDouble(args[0]));
+                config.set("spawn-coords.y", Double.parseDouble(args[1]));
+                config.set("spawn-coords.z", Double.parseDouble(args[2]));
+            } catch (NumberFormatException e){
+                player.sendMessage(ChatColor.RED + "Please enter digits.");
+            }
+        } else if (args.length == 0) {
+            config.set("spawn-coords.x", player.getLocation().getX());
+            config.set("spawn-coords.y", player.getLocation().getY());
+            config.set("spawn-coords.z", player.getLocation().getZ());
+        } else {
+            player.sendMessage(ChatColor.GREEN + "Either do /set-map on the block you want to, or do /set-map [x] [y] [z].");
+        }
         plugin.saveConfig();
         return true;
     }
