@@ -7,6 +7,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import org.bukkit.inventory.ItemStack;
@@ -102,5 +103,14 @@ public class ItController {
 
     public void addAllToPlayers(){
         Bukkit.getOnlinePlayers().forEach(player -> gameManager.itController.addToPlayer(player));
+    }
+
+    public Set<OfflinePlayer> InGameList(){
+        return new HashSet<OfflinePlayer>() {
+            {
+                addAll(ITTeamList());
+                addAll(PlayersTeamList());
+            }
+        };
     }
 }

@@ -22,7 +22,7 @@ public class BlockManager {
                 if(gameManager.gameState != GameState.ACTIVE){
                     cancel();
                 }
-                for(OfflinePlayer oPlayer :gameManager.itController.PlayersTeamList()){
+                for(OfflinePlayer oPlayer :gameManager.itController.InGameList()){
                     if (!oPlayer.isOnline()) {
                         continue;
                     }
