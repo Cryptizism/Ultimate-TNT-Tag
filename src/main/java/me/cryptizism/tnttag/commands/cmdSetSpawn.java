@@ -1,6 +1,7 @@
 package me.cryptizism.tnttag.commands;
 
 import me.cryptizism.tnttag.TntTag;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -21,6 +22,10 @@ public class cmdSetSpawn implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if(!(sender instanceof Player)) return false;
         Player player = (Player) sender;
+        if(!player.isOp()){
+            player.sendMessage(ChatColor.RED + "You cannot use this command.");
+            return true;
+        }
         config.set("waiting-coords.x", player.getLocation().getX());
         config.set("waiting-coords.y", player.getLocation().getY());
         config.set("waiting-coords.z", player.getLocation().getZ());
