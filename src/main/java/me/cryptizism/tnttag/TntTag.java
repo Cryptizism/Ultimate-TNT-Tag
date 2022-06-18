@@ -34,6 +34,7 @@ public final class TntTag extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new onItemManagement(), this);
         getServer().getPluginManager().registerEvents(new onBlockPlace(), this);
         getServer().getPluginManager().registerEvents(new onFallDamage(), this);
+        getServer().getPluginManager().registerEvents(new onBlockBreak(), this);
 
         //Registering Commands
         this.getCommand("it").setExecutor(new cmdIT(gameManager));
