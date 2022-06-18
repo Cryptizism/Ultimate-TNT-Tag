@@ -8,7 +8,6 @@ import org.bukkit.event.block.BlockBreakEvent;
 public class onBlockBreak implements Listener {
     @EventHandler
     private void BlockBreakEvent(BlockBreakEvent e){
-        Bukkit.broadcastMessage("can't place here!");
         e.setCancelled(true);
     }
 }
