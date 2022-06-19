@@ -15,6 +15,22 @@ public class BlockManager {
         this.gameManager = gameManager;
     }
 
+    public int maxAmount = 32;
+    public int increaseAmount = 1;
+    public int loopTicks = 20; //How many ticks till next loop
+
+    public void setMaxAmount(int maxAmount) {
+        this.maxAmount = maxAmount;
+    }
+
+    public void setIncreaseAmount(int increaseAmount) {
+        this.increaseAmount = increaseAmount;
+    }
+
+    public void setLoopTicks(int loopTicks) {
+        this.loopTicks = loopTicks;
+    }
+
     public void addBlocksToPlayers(){
         new BukkitRunnable() {
             @Override
@@ -28,12 +44,12 @@ public class BlockManager {
                     }
                     Player player = (Player) oPlayer;
                     Inventory inventory = player.getInventory();
-                    if (inventory.containsAtLeast(new ItemStack(Material.WOOL), 32)) {
+                    if (inventory.containsAtLeast(new ItemStack(Material.WOOL), maxAmount)) {
                         continue;
                     }
-                    inventory.addItem(new ItemStack(Material.WOOL, 1));
+                    inventory.addItem(new ItemStack(Material.WOOL, increaseAmount));
                 }
             }
-        }.runTaskTimer(TntTag.getInstance(), 0, 20);
+        }.runTaskTimer(TntTag.getInstance(), 0, loopTicks);
     }
 }

@@ -10,7 +10,9 @@ import java.util.Random;
 
 public class RoundManager {
     public int gameRound = 0;
+
     public int roundTime = 60;
+    public int currentRoundTime = roundTime;
 
     private GameManager gameManager;
 
@@ -30,17 +32,12 @@ public class RoundManager {
         OfflinePlayer[] players = gameManager.itController.PlayersTeamList().toArray(new OfflinePlayer[playerCount]);
 
         if (playerCount <= 6){
-
             gameManager.itController.addToIT(((Player) players[rand_int]), true);
-
-            if(playerCount > 4){
-                gameManager.itController.PlayersTeamList().forEach(
-                        player ->
-                        gameManager.spawningManager.teleportToGame((Player) player)
-                );
-            }
-
-        } else if(playerCount <= 10){
+            gameManager.itController.PlayersTeamList().forEach(
+                    player ->
+                    gameManager.spawningManager.teleportToGame((Player) player)
+            );
+        } else if(playerCount <= 7){
             for (int i = 1; i <= 2; i++) {
                 gameManager.itController.addToIT(((Player) players[rand_int]), true);
             }
@@ -51,7 +48,7 @@ public class RoundManager {
         }
         /*10 = 2 6 = 1  rest = 4*/
         // Every round is 5 less seconds
-        roundTime = 60 - (gameRound * 5);
+        currentRoundTime = roundTime - (gameRound * 5);
         runnable();
     }
 
@@ -64,7 +61,9 @@ public class RoundManager {
             gameManager.itController.addAllToPlayers();
         }
         gameManager.setGameState(GameState.ACTIVE);
-        gameManager.hologramScoreboardManager.updateHolo();
+        if(gameManager.mySQLInit.isConnected()){
+            gameManager.hologramScoreboardManager.updateHolo();
+        }
         nextRound();
     }
 
@@ -73,8 +72,8 @@ public class RoundManager {
 
             @Override
             public void run(){
-                roundTime = roundTime - 1;
-                if((roundTime < 0) || gameManager.gameState != GameState.ACTIVE ){
+                currentRoundTime = currentRoundTime - 1;
+                if((currentRoundTime < 0) || gameManager.gameState != GameState.ACTIVE ){
                     if(gameManager.itController.getPlayersSize() > 1) {
                         Bukkit.broadcastMessage(ChatColor.RED + "The round is over");
                     }
@@ -82,7 +81,7 @@ public class RoundManager {
                     roundEnded();
                     cancel();
                 } else {
-                    gameManager.scoreboardManager.addToScoreboard(roundTime, gameRound);
+                    gameManager.scoreboardManager.addToScoreboard(currentRoundTime, gameRound);
                 }
             }
 
@@ -106,8 +105,12 @@ public class RoundManager {
             Bukkit.broadcastMessage(gameManager.itController.PlayersTeamList().iterator().next().getName() + " has won!");
             gameManager.setGameState(GameState.LOBBY);
             gameRound = 0;
-            roundTime = 0;
-            gameManager.scoreboardManager.addToScoreboard(roundTime, gameRound);
+            currentRoundTime = 0;
+            gameManager.scoreboardManager.addToScoreboard(currentRoundTime, gameRound);
         }
+    }
+
+    public void setRoundTime(int roundTime) {
+        this.roundTime = roundTime;
     }
 }

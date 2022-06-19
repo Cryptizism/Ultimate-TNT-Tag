@@ -1,6 +1,7 @@
 package me.cryptizism.tnttag.listeners;
 
 import me.cryptizism.tnttag.manager.GameManager;
+import me.cryptizism.tnttag.manager.GameState;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -19,6 +20,9 @@ public class onDamageDone implements Listener {
 
     @EventHandler
     private void onPlayerDamageDone(EntityDamageByEntityEvent event){
+        if(gameManager.gameState == GameState.LOBBY){
+            event.setCancelled(true);
+        }
         event.setDamage(0);
         if (!(event.getEntity() instanceof Player && event.getDamager() instanceof Player)) return;
         Player invoker = (Player) event.getDamager();

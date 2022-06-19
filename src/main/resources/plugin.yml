@@ -22,3 +22,6 @@ commands:
   spectate:
     description: Makes you or another player spectate
     usage: /<command> [target]
+  set-variables:
+    description: Sets variables for the
+    usage: /<command> variable value

@@ -25,6 +25,10 @@ import static com.comphenix.protocol.PacketType.Play.Server.BLOCK_BREAK_ANIMATIO
 
 public class onBlockPlace implements Listener {
 
+    private int secondsToBreak = 1;
+    private int ticksToBreak = secondsToBreak * 20 / 8;
+    private int maxHeightLimit;
+
     private int idCounter = 0;
 
     public int createID()
@@ -57,16 +61,15 @@ public class onBlockPlace implements Listener {
                 return;
             }
         }
+        if(block.getLocation().getY() > maxHeightLimit){
+            e.setCancelled(true);
+        }
         new BukkitRunnable(){
             int count = 0;
             final int randId = createID();
             @Override
             public void run(){
                 count++;
-                if(block == null){
-                    cancel();
-                    return;
-                }
                 if(count > 9){
                     block.setType(Material.AIR);
                     cancel();
@@ -74,7 +77,7 @@ public class onBlockPlace implements Listener {
                 }
                 blockBreakEffect(trigger, block.getLocation().toVector(), count, randId);
             }
-        }.runTaskTimer(TntTag.getInstance(), 0, 5);
+        }.runTaskTimer(TntTag.getInstance(), 0, ticksToBreak);
     }
 
     public void blockBreakEffect(Player player, Vector vector, int step, int randId) {
@@ -91,5 +94,13 @@ public class onBlockPlace implements Listener {
         } catch (InvocationTargetException e) {
             e.printStackTrace();
         }
+    }
+
+    public void setSecondsToBreak(int secondsToBreak) {
+        this.secondsToBreak = secondsToBreak;
+    }
+
+    public void setTicksToBreak(int ticksToBreak) {
+        this.ticksToBreak = ticksToBreak;
     }
 }
