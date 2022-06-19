@@ -30,8 +30,6 @@ public class onPlayerLeave implements Listener {
             }
             gameManager.itController.addToPlayer((Player) winner);
             gameManager.roundManager.roundEnded();
-        } else {
-            Bukkit.broadcastMessage(String.valueOf((gameManager.itController.getPlayersSize() + gameManager.itController.getITTeamSize())));
         }
     }
 }
