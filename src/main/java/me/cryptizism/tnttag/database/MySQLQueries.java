@@ -43,7 +43,7 @@ public class MySQLQueries {
             if(exists(uuid)){ return; }
             ps = connection.prepareStatement(
                     "INSERT IGNORE INTO gamescores " +
-                            "(NAME,UUID) VALUES (?,?)"
+                            "(NAME,UUID,POINTS) VALUES (?,?,0)"
             );
             ps.setString(1, name);
             ps.setString(2, uuid);

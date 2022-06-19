@@ -64,6 +64,7 @@ public class RoundManager {
             gameManager.itController.addAllToPlayers();
         }
         gameManager.setGameState(GameState.ACTIVE);
+        gameManager.hologramScoreboardManager.updateHolo();
         nextRound();
     }
 

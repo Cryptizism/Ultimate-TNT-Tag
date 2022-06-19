@@ -14,7 +14,6 @@ public class onPlayerJoin implements Listener {
 
     public onPlayerJoin(GameManager gameManager){
         this.gameManager = gameManager;
-
     }
 
     @EventHandler
@@ -33,6 +32,7 @@ public class onPlayerJoin implements Listener {
         //Add player to database
         if(gameManager.mySQLQueries != null){
             gameManager.mySQLQueries.addPlayerToTable(caller);
+            gameManager.hologramScoreboardManager.updateHolo();
         }
     }
 }

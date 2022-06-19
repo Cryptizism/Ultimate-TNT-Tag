@@ -16,6 +16,9 @@ commands:
   set-spawn:
     description: Sets the pre-game spawn
     usage: /<command> [x] [y] [z]
+  set-holo:
+    description: Sets the hologram leaderboards location
+    usage: /<command> [x] [y] [z]
   spectate:
     description: Makes you or another player spectate
     usage: /<command> [target]

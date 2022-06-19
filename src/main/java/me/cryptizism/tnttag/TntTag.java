@@ -42,6 +42,7 @@ public final class TntTag extends JavaPlugin {
         this.getCommand("spectate").setExecutor(new cmdSpectate(gameManager));
         this.getCommand("set-spawn").setExecutor(new cmdSetSpawn(config, this));
         this.getCommand("set-map").setExecutor(new cmdSetMap(config, this));
+        this.getCommand("set-holo").setExecutor(new cmdSetHolo(config, this));
     }
 
     @Override
