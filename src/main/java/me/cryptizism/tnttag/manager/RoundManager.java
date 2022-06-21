@@ -3,6 +3,7 @@ package me.cryptizism.tnttag.manager;
 import me.cryptizism.tnttag.TntTag;
 import org.bukkit.*;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -59,12 +60,17 @@ public class RoundManager {
         }
         if(gameRound == 0){
             gameManager.itController.addAllToPlayers();
+            gameManager.setGameState(GameState.ACTIVE);
         }
-        gameManager.setGameState(GameState.ACTIVE);
         if(gameManager.mySQLInit.isConnected()){
             gameManager.hologramScoreboardManager.updateHolo();
         }
-        nextRound();
+        new BukkitRunnable(){
+            @Override
+            public void run() {
+                nextRound();
+            }
+        }.runTaskLater(TntTag.getInstance(), 100);
     }
 
     public void runnable(){
@@ -77,7 +83,16 @@ public class RoundManager {
                     if(gameManager.itController.getPlayersSize() > 1) {
                         Bukkit.broadcastMessage(ChatColor.RED + "The round is over");
                     }
-                    gameManager.itController.ITTeamList().forEach(player -> explode(player));
+                    for(OfflinePlayer oplayer: gameManager.itController.ITTeamList()){
+                        Player player = (Player) oplayer;
+                        for(Entity e : player.getNearbyEntities(3,2,3)) {
+                            if(e instanceof Player) {
+                                Player target = (Player)e;
+                                explode(target);
+                            }
+                        }
+                        explode(player);
+                    }
                     roundEnded();
                     cancel();
                 } else {
@@ -88,8 +103,7 @@ public class RoundManager {
         }.runTaskTimer(TntTag.getInstance(), 0, 20);
     }
 
-    public void explode(OfflinePlayer oPlayer){
-        Player player = (Player) oPlayer;
+    public void explode(Player player){
         Location playerLoc = player.getLocation();
         World world = player.getWorld();
         world.createExplosion(playerLoc.getX(), playerLoc.getY(), playerLoc.getZ(), 3, false, false);
@@ -101,6 +115,8 @@ public class RoundManager {
     public void roundEnded(){
         if(gameManager.itController.getPlayersSize() > 1){
             initRounds();
+        }else if (gameManager.itController.getPlayersSize() == 0){
+            //tied
         } else {
             Bukkit.broadcastMessage(gameManager.itController.PlayersTeamList().iterator().next().getName() + " has won!");
             gameManager.setGameState(GameState.LOBBY);
