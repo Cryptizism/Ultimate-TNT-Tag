@@ -6,6 +6,7 @@ import com.comphenix.protocol.wrappers.BlockPosition;
 
 import me.cryptizism.tnttag.TntTag;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -18,8 +19,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.UUID;
-import java.util.concurrent.atomic.AtomicLong;
+import java.util.HashMap;
 
 import static com.comphenix.protocol.PacketType.Play.Server.BLOCK_BREAK_ANIMATION;
 
@@ -31,6 +31,8 @@ public class onBlockPlace implements Listener {
 
     private int idCounter = 0;
 
+    private HashMap<Block, Integer> breakingBlocks = new HashMap<Block, Integer>();
+
     public int createID()
     {
         idCounter++;
@@ -41,17 +43,22 @@ public class onBlockPlace implements Listener {
     private void BlockPlaceEvent(BlockPlaceEvent e){
         Player trigger = e.getPlayer();
         Block block = e.getBlock();
+        int startCount = 0;
 
         Block against = e.getBlockAgainst();
         if(block.getType() != Material.WOOL) {
             e.setCancelled(true);
             return;
         }
-        if(against.getType() == Material.BARRIER){
+        if(against.getType() == Material.BARRIER || against.getType() == Material.AIR){
             e.setCancelled(true);
             trigger.sendMessage("You cannot place a block here.");
             return;
         }
+        //if(block.getLocation().getY() > maxHeightLimit){
+        //    e.setCancelled(true);
+        //    return;
+        //}
         if(against.getType() == Material.WOOL){
             int y = against.getY() - 1;
             World world = against.getWorld();
@@ -60,24 +67,36 @@ public class onBlockPlace implements Listener {
                 trigger.sendMessage("You cannot stack up 3 high");
                 return;
             }
+            if(breakingBlocks.containsKey(against)){
+                startCount = breakingBlocks.get(against);
+            }
         }
-        if(block.getLocation().getY() > maxHeightLimit){
-            e.setCancelled(true);
+        if(startCount == 9){
+            block.setType(Material.AIR);
+            Bukkit.getLogger().info("Start count was 9");
+            return;
         }
+        Bukkit.getLogger().info(String.valueOf(startCount));
+        int finalStartCount = startCount;
         new BukkitRunnable(){
-            int count = 0;
+            int count = finalStartCount;
             final int randId = createID();
             @Override
             public void run(){
                 count++;
                 if(count > 9){
+                    Bukkit.getLogger().info("Breaking the block");
                     block.setType(Material.AIR);
                     cancel();
                     return;
                 }
                 blockBreakEffect(trigger, block.getLocation().toVector(), count, randId);
+                addToBreakingBlockList(block, count);
             }
         }.runTaskTimer(TntTag.getInstance(), 0, ticksToBreak);
+        //if(block.getType() != Material.AIR){
+        //    block.setType(Material.AIR);
+        //}
     }
 
     public void blockBreakEffect(Player player, Vector vector, int step, int randId) {
@@ -94,6 +113,10 @@ public class onBlockPlace implements Listener {
         } catch (InvocationTargetException e) {
             e.printStackTrace();
         }
+    }
+
+    public void addToBreakingBlockList(Block block, Integer stage){
+        breakingBlocks.put(block, stage);
     }
 
     public void setSecondsToBreak(int secondsToBreak) {
