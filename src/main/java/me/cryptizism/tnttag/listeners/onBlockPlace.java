@@ -55,10 +55,6 @@ public class onBlockPlace implements Listener {
             trigger.sendMessage("You cannot place a block here.");
             return;
         }
-        //if(block.getLocation().getY() > maxHeightLimit){
-        //    e.setCancelled(true);
-        //    return;
-        //}
         if(against.getType() == Material.WOOL){
             int y = against.getY() - 1;
             World world = against.getWorld();
@@ -73,10 +69,8 @@ public class onBlockPlace implements Listener {
         }
         if(startCount == 9){
             block.setType(Material.AIR);
-            Bukkit.getLogger().info("Start count was 9");
             return;
         }
-        Bukkit.getLogger().info(String.valueOf(startCount));
         int finalStartCount = startCount;
         new BukkitRunnable(){
             int count = finalStartCount;
@@ -85,18 +79,16 @@ public class onBlockPlace implements Listener {
             public void run(){
                 count++;
                 if(count > 9){
-                    Bukkit.getLogger().info("Breaking the block");
                     block.setType(Material.AIR);
                     cancel();
-                    return;
+                    removeFromBreakingBlockList(block);
+                    blockBreakEffect(trigger, block.getLocation().toVector(), 0, randId);
+                } else{
+                    blockBreakEffect(trigger, block.getLocation().toVector(), count, randId);
+                    addToBreakingBlockList(block, count);
                 }
-                blockBreakEffect(trigger, block.getLocation().toVector(), count, randId);
-                addToBreakingBlockList(block, count);
             }
         }.runTaskTimer(TntTag.getInstance(), 0, ticksToBreak);
-        //if(block.getType() != Material.AIR){
-        //    block.setType(Material.AIR);
-        //}
     }
 
     public void blockBreakEffect(Player player, Vector vector, int step, int randId) {
@@ -117,6 +109,10 @@ public class onBlockPlace implements Listener {
 
     public void addToBreakingBlockList(Block block, Integer stage){
         breakingBlocks.put(block, stage);
+    }
+
+    public void removeFromBreakingBlockList(Block block){
+        breakingBlocks.remove(block);
     }
 
     public void setSecondsToBreak(int secondsToBreak) {
