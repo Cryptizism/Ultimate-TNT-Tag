@@ -27,7 +27,6 @@ public class onBlockPlace implements Listener {
 
     private int secondsToBreak = 1;
     private int ticksToBreak = secondsToBreak * 20 / 8;
-    private int maxHeightLimit;
 
     private int idCounter = 0;
 
@@ -43,6 +42,7 @@ public class onBlockPlace implements Listener {
     private void BlockPlaceEvent(BlockPlaceEvent e){
         Player trigger = e.getPlayer();
         Block block = e.getBlock();
+        World world = block.getWorld();
         int startCount = 0;
 
         Block against = e.getBlockAgainst();
@@ -57,7 +57,6 @@ public class onBlockPlace implements Listener {
         }
         if(against.getType() == Material.WOOL){
             int y = against.getY() - 1;
-            World world = against.getWorld();
             if(world.getBlockAt(against.getX(), y, against.getZ()).getType() == Material.WOOL){
                 e.setCancelled(true);
                 trigger.sendMessage("You cannot stack up 3 high");
@@ -66,7 +65,32 @@ public class onBlockPlace implements Listener {
             if(breakingBlocks.containsKey(against)){
                 startCount = breakingBlocks.get(against);
             }
-        }
+        } /*else{
+            int x = block.getX();
+            int y = block.getY() - 1;
+            int z = block.getZ();
+            if((against.getLocation().getX() - block.getLocation().getX()) != 0){
+                if(world.getBlockAt(x, y, z +1).getType() == Material.WOOL){
+                    e.setCancelled(true);
+                    trigger.sendMessage("You cannot bridge on the side of the walls");
+                    return;
+                } else if(world.getBlockAt(x, y, z - 1).getType() == Material.WOOL) {
+                    e.setCancelled(true);
+                    trigger.sendMessage("You cannot bridge on the side of the walls");
+                    return;
+                }
+            } else{
+                if(world.getBlockAt(x + 1, y, z).getType() == Material.WOOL){
+                    e.setCancelled(true);
+                    trigger.sendMessage("You cannot bridge on the side of the walls");
+                    return;
+                } else if(world.getBlockAt(x - 1, y, z - 1).getType() == Material.WOOL) {
+                    e.setCancelled(true);
+                    trigger.sendMessage("You cannot bridge on the side of the walls");
+                    return;
+                }
+            }
+        }*/
         if(startCount == 9){
             block.setType(Material.AIR);
             return;

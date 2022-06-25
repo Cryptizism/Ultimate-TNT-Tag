@@ -58,19 +58,39 @@ public class RoundManager {
             Bukkit.broadcastMessage(ChatColor.RED + "Cannot start game/rounds with only 1 player, report to event organiser (Cryptizism).");
             return;
         }
-        if(gameRound == 0){
-            gameManager.itController.addAllToPlayers();
-            gameManager.setGameState(GameState.ACTIVE);
-        }
         if(gameManager.mySQLInit.isConnected()){
             gameManager.hologramScoreboardManager.updateHolo();
         }
-        new BukkitRunnable(){
-            @Override
-            public void run() {
-                nextRound();
-            }
-        }.runTaskLater(TntTag.getInstance(), 100);
+        if(gameRound == 0){
+            new BukkitRunnable(){
+                int counter = 10;
+                @Override
+                public void run(){
+                    for(OfflinePlayer oPlayer : gameManager.itController.PlayersTeamList()){
+                        Player player = (Player) oPlayer;
+                        player.sendTitle(ChatColor.GOLD + "Starting in " + ChatColor.RED + String.valueOf(counter) + ChatColor.GOLD +  " seconds.", ChatColor.ITALIC + "Hold tight!");
+                    }
+                    if(counter == 0){
+                        gameManager.itController.addAllToPlayers();
+                        gameManager.setGameState(GameState.ACTIVE);
+                        nextRound();
+                        for(OfflinePlayer oPlayer : gameManager.itController.PlayersTeamList()){
+                            Player player = (Player) oPlayer;
+                            player.sendTitle("", "");
+                        }
+                        cancel();
+                    }
+                    counter = counter-1;
+                }
+            }.runTaskTimer(TntTag.getInstance(), 0, 20);
+        } else {
+            new BukkitRunnable(){
+                @Override
+                public void run() {
+                    nextRound();
+                }
+            }.runTaskLater(TntTag.getInstance(), 100);
+        }
     }
 
     public void runnable(){
