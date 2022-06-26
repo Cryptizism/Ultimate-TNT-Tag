@@ -42,7 +42,11 @@ public class ScoreboardManager {
         addEntry(4, ChatColor.GRAY + "Round #" + Integer.toString(round));
         addEntry(3, "");
         if(timeLeft == 0){
-            addEntry(2, ChatColor.RED + "GAME OVER");
+            if(round >= 1){
+                addEntry(2, ChatColor.RED + "Next is starting soon.");
+            } else {
+                addEntry(2, ChatColor.RED + "GAME OVER");
+            }
         }else{
             addEntry(2, ChatColor.RED + "Explosion in " + ChatColor.GREEN + Integer.toString(timeLeft) + "s");
             addEntry(1, "");

@@ -83,6 +83,7 @@ public class ItController {
         player.getInventory().clear();
         player.getInventory().setHelmet(new ItemStack(Material.AIR));
         player.setGameMode(GameMode.SPECTATOR);
+        addLastKilled(player);
     }
 
     public int getITTeamSize(){
@@ -112,5 +113,19 @@ public class ItController {
                 addAll(PlayersTeamList());
             }
         };
+    }
+
+    public Set<Player> lastKilled = new HashSet<Player>();
+
+    public Set<Player> getLastKilled() {
+        return lastKilled;
+    }
+
+    public void addLastKilled(Player player) {
+        this.lastKilled.add(player);
+    }
+
+    public void clearLastKilled(){
+        this.lastKilled.clear();
     }
 }

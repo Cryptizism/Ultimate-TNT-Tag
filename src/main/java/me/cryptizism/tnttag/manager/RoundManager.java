@@ -33,11 +33,11 @@ public class RoundManager {
         OfflinePlayer[] players = gameManager.itController.PlayersTeamList().toArray(new OfflinePlayer[playerCount]);
 
         if (playerCount <= 6){
-            gameManager.itController.addToIT(((Player) players[rand_int]), true);
             gameManager.itController.PlayersTeamList().forEach(
                     player ->
-                    gameManager.spawningManager.teleportToGame((Player) player)
+                            gameManager.spawningManager.teleportToGame((Player) player)
             );
+            gameManager.itController.addToIT(((Player) players[rand_int]), true);
         } else if(playerCount <= 7){
             for (int i = 1; i <= 2; i++) {
                 gameManager.itController.addToIT(((Player) players[rand_int]), true);
@@ -105,13 +105,13 @@ public class RoundManager {
                     }
                     for(OfflinePlayer oplayer: gameManager.itController.ITTeamList()){
                         Player player = (Player) oplayer;
+                        explode(player);
                         for(Entity e : player.getNearbyEntities(3,2,3)) {
                             if(e instanceof Player) {
                                 Player target = (Player)e;
                                 explode(target);
                             }
                         }
-                        explode(player);
                     }
                     roundEnded();
                     cancel();
@@ -124,11 +124,10 @@ public class RoundManager {
     }
 
     public void explode(Player player){
+        gameManager.itController.addToSpec(player);
         Location playerLoc = player.getLocation();
         World world = player.getWorld();
         world.createExplosion(playerLoc.getX(), playerLoc.getY(), playerLoc.getZ(), 3, false, false);
-        //Kill players based on location
-        gameManager.itController.addToSpec(player);
         Bukkit.broadcastMessage(ChatColor.RED + player.getName() + " exploded.");
     }
 
@@ -136,7 +135,11 @@ public class RoundManager {
         if(gameManager.itController.getPlayersSize() > 1){
             initRounds();
         }else if (gameManager.itController.getPlayersSize() == 0){
-            //tied
+            gameManager.itController.getLastKilled().forEach(
+                    player ->
+                            gameManager.itController.addToPlayer(player)
+            );
+            initRounds();
         } else {
             Bukkit.broadcastMessage(gameManager.itController.PlayersTeamList().iterator().next().getName() + " has won!");
             gameManager.setGameState(GameState.LOBBY);
@@ -144,6 +147,7 @@ public class RoundManager {
             currentRoundTime = 0;
             gameManager.scoreboardManager.addToScoreboard(currentRoundTime, gameRound);
         }
+        gameManager.itController.clearLastKilled();
     }
 
     public void setRoundTime(int roundTime) {
