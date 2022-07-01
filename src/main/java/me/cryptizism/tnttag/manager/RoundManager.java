@@ -66,19 +66,13 @@ public class RoundManager {
                 int counter = 10;
                 @Override
                 public void run(){
-                    for(OfflinePlayer oPlayer : gameManager.itController.PlayersTeamList()){
-                        Player player = (Player) oPlayer;
-                        player.sendTitle(ChatColor.GOLD + "Starting in " + ChatColor.RED + String.valueOf(counter) + ChatColor.GOLD +  " seconds.", ChatColor.ITALIC + "Hold tight!");
-                    }
                     if(counter == 0){
                         gameManager.itController.addAllToPlayers();
                         gameManager.setGameState(GameState.ACTIVE);
                         nextRound();
-                        for(OfflinePlayer oPlayer : gameManager.itController.PlayersTeamList()){
-                            Player player = (Player) oPlayer;
-                            player.sendTitle("", "");
-                        }
                         cancel();
+                    } else {
+                        Bukkit.broadcastMessage(ChatColor.GOLD + "Starting in " + ChatColor.RED + String.valueOf(counter) + ChatColor.GOLD +  " seconds.");
                     }
                     counter = counter-1;
                 }
