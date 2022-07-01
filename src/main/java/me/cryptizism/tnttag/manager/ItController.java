@@ -42,7 +42,7 @@ public class ItController {
 
     public void addToIT(Player player, boolean firstRound){
         if(!firstRound){
-            Bukkit.broadcastMessage(player.getDisplayName() + " is IT!");
+            Bukkit.broadcastMessage(player.getDisplayName() + ChatColor.RED + " is IT!");
         }
         //Adds to team
         ScoreboardManager.board.getTeam("IT").addEntry(player.getName());
