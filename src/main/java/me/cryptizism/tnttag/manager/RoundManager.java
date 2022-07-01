@@ -78,6 +78,13 @@ public class RoundManager {
                 }
             }.runTaskTimer(TntTag.getInstance(), 0, 20);
         } else {
+            if(gameManager.mySQLInit.isConnected()) {
+                gameManager.itController.PlayersTeamList().forEach(
+                        player ->
+                                gameManager.mySQLQueries.addPointsToPlayer((Player) player, gameRound)
+                );
+                gameManager.hologramScoreboardManager.updateHolo();
+            }
             new BukkitRunnable(){
                 @Override
                 public void run() {
@@ -122,7 +129,7 @@ public class RoundManager {
         Location playerLoc = player.getLocation();
         World world = player.getWorld();
         world.createExplosion(playerLoc.getX(), playerLoc.getY(), playerLoc.getZ(), 3, false, false);
-        Bukkit.broadcastMessage(ChatColor.RED + player.getName() + " exploded.");
+        Bukkit.broadcastMessage(ChatColor.WHITE + player.getName() + ChatColor.RED + " exploded.");
     }
 
     public void roundEnded(){
@@ -135,7 +142,11 @@ public class RoundManager {
             );
             initRounds();
         } else {
-            Bukkit.broadcastMessage(gameManager.itController.PlayersTeamList().iterator().next().getName() + " has won!");
+            Player lastAlive = (Player) gameManager.itController.PlayersTeamList().iterator().next();
+            Bukkit.broadcastMessage(lastAlive.getName() + " has won!");
+            if(gameManager.mySQLInit.isConnected()){
+                gameManager.mySQLQueries.addPointsToPlayer(lastAlive, 5);
+            }
             gameManager.setGameState(GameState.LOBBY);
             gameRound = 0;
             currentRoundTime = 0;
