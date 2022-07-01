@@ -34,7 +34,6 @@ public class SpawningManager {
     }
 
     public void teleportToGame(Player player){
-        Bukkit.getLogger().info("Sent " + player.getDisplayName() + " to game at " + game.toString());
         player.teleport(game);
         player.getInventory().clear();
     }
