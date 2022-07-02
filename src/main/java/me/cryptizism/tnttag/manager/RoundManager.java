@@ -102,9 +102,6 @@ public class RoundManager {
             public void run(){
                 currentRoundTime = currentRoundTime - 1;
                 if((currentRoundTime < 0) || gameManager.gameState != GameState.ACTIVE ){
-                    if(gameManager.itController.getPlayersSize() > 1) {
-                        Bukkit.broadcastMessage(ChatColor.RED + "The round is over");
-                    }
                     for(OfflinePlayer oplayer: gameManager.itController.ITTeamList()){
                         Player player = (Player) oplayer;
                         explode(player);
@@ -114,6 +111,9 @@ public class RoundManager {
                                 explode(target);
                             }
                         }
+                    }
+                    if(gameManager.itController.getPlayersSize() > 1) {
+                        Bukkit.broadcastMessage(ChatColor.RED + "The round is over");
                     }
                     roundEnded();
                     cancel();
