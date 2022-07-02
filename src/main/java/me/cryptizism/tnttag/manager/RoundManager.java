@@ -26,6 +26,7 @@ public class RoundManager {
         int playerCount = gameManager.itController.getPlayersSize();
         if(playerCount <= 1){
             Bukkit.broadcastMessage(ChatColor.RED + "Tried to give IT role but there are no players or 1 player, report to event organiser (Cryptizism).");
+            gameManager.setGameState(GameState.LOBBY);
             return;
         }
         Random rand = new Random();
