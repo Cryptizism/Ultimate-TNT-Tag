@@ -26,7 +26,7 @@ public class ScoreboardManager {
         Team Players = board.registerNewTeam("Players");
         Team Spectators = board.registerNewTeam("Spectators");
         //Team Prefixes
-        IT.setPrefix(ChatColor.DARK_RED + "[IT] ");
+        IT.setPrefix(ChatColor.RED + "[IT] ");
         Players.setPrefix(ChatColor.WHITE + "");
         Spectators.setPrefix(ChatColor.translateAlternateColorCodes('&', "&7&o"));
         obj = board.registerNewObjective(ChatColor.BOLD + ChatColor.translateAlternateColorCodes('&', "&cTNT Tag"), "dummy");
