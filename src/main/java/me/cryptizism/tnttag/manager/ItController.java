@@ -12,6 +12,7 @@ import java.util.Set;
 
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkMeta;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -56,7 +57,11 @@ public class ItController {
         player.getInventory().setHelmet(new ItemStack(Material.TNT));
 
         //Player tracking compass
-        player.getInventory().setItem(1, new ItemStack(Material.COMPASS));
+        ItemStack item = new ItemStack(Material.COMPASS);
+        ItemMeta meta = item.getItemMeta();
+        meta.setDisplayName(ChatColor.GREEN + "Right click to track player");
+        item.setItemMeta(meta);
+        player.getInventory().setItem(1, item);
 
         //Let off firework
         Location playerLoc = player.getLocation();
