@@ -141,11 +141,12 @@ public class RoundManager {
                             gameManager.itController.addToPlayer(player)
             );
             initRounds();
+            gameRound = gameRound - 1;
         } else {
             Player lastAlive = (Player) gameManager.itController.PlayersTeamList().iterator().next();
             Bukkit.broadcastMessage(ChatColor.WHITE + lastAlive.getName() + ChatColor.GREEN + " has won!");
             if(gameManager.mySQLInit.isConnected()){
-                gameManager.mySQLQueries.addPointsToPlayer(lastAlive, 5);
+                gameManager.mySQLQueries.addPointsToPlayer(lastAlive, 5 + gameRound);
             }
             gameManager.setGameState(GameState.LOBBY);
             gameRound = 0;
