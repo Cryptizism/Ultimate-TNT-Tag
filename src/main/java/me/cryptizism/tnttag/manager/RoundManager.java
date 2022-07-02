@@ -148,6 +148,7 @@ public class RoundManager {
             Bukkit.broadcastMessage(ChatColor.WHITE + lastAlive.getName() + ChatColor.GREEN + " has won!");
             if(gameManager.mySQLInit.isConnected()){
                 gameManager.mySQLQueries.addPointsToPlayer(lastAlive, 5 + gameRound);
+                gameManager.hologramScoreboardManager.updateHolo();
             }
             gameManager.setGameState(GameState.LOBBY);
             gameRound = 0;
