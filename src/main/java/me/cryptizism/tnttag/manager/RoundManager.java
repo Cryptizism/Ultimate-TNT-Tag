@@ -48,7 +48,6 @@ public class RoundManager {
                 gameManager.itController.addToIT(((Player) players[rand_int]), true);
             }
         }
-        /*10 = 2 6 = 1  rest = 4*/
         // Every round is 5 less seconds
         currentRoundTime = roundTime - (gameRound * 5);
         runnable();
@@ -108,6 +107,7 @@ public class RoundManager {
                         for(Entity e : player.getNearbyEntities(3,2,3)) {
                             if(e instanceof Player) {
                                 Player target = (Player)e;
+                                if(!gameManager.itController.InGameList().contains((OfflinePlayer) target)) continue;
                                 explode(target);
                             }
                         }
