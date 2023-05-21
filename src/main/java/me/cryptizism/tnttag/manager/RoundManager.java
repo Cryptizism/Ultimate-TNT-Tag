@@ -25,7 +25,7 @@ public class RoundManager {
         gameRound++;
         int playerCount = gameManager.itController.getPlayersSize();
         if(playerCount <= 1){
-            Bukkit.broadcastMessage(ChatColor.RED + "Tried to give IT role but there are no players or 1 player, report to event organiser (Cryptizism).");
+            Bukkit.broadcastMessage(ChatColor.RED + "Error: Tried to give IT role but there are no players or 1 player");
             gameManager.setGameState(GameState.LOBBY);
             return;
         }
@@ -55,7 +55,7 @@ public class RoundManager {
 
     public void initRounds(){
         if(Bukkit.getOnlinePlayers().size() <= 1){
-            Bukkit.broadcastMessage(ChatColor.RED + "Cannot start game/rounds with only 1 player, report to event organiser (Cryptizism).");
+            Bukkit.broadcastMessage(ChatColor.RED + "Error: Cannot start game/rounds with only 1 player");
             return;
         }
         if(gameManager.mySQLInit.isConnected()){
